@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="http://localhost/Projet_IT/public/js/main.js"></script>
+    <title>Log-in</title>
+</head>
+<body>
+
+
+    <div class="flex flex-col sm:flex-row justify-center align-start flex-nowrap min-h-screen pb-16 sm:pb-0">
+        <nav id="navbar"></nav>
+
+        <div class="w-full flex flex-col items-center justify-center sm:ml-16 lg:ml-40 p-2">
+            <div class="border rounded border-gray-300 p-2 min-w-50 w-full max-w-md">
+                <h1 class="text-4xl font-sans font-semibold text-black">Login</h1>
+                <hr class="my-4 border-gray-300">
+                <form class="flex flex-col gap-2">
+                    <div class="relative">
+                        <input type="text" id="username" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer" placeholder=" " />
+                        <label for="username" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Username</label>
+                    </div>
+
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <div class="relative">
+                            <input type="password" id="password" class="block px-2.5 pb-2.5 pr-12 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer invalid:border-red-500" placeholder=" "/>
+                            <label for="password" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                        </div>
+                        <div class="absolute inset-y-0 right-0 flex items-center">
+                            <button type="button" id="toggle-visibility-password" class="h-[calc(100%-2px)] text-gray-500 hover:bg-gray-100 font-medium rounded-lg text-sm px-4 py-2.5 mx-px"><svg xmlns="http://www.w3.org/2000/svg" style="display: block;" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: none;" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg></button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
+
+        if(getCookie("token")){
+            $.post("/auth", {token:getCookie("token")}, (data) => {
+                if(data.status == 400){
+                    deleteCookie("token");
+                    location.reload();
+                }else{
+                    location = "/dashboard";
+                }
+           });
+        }
+
+        $("form").submit(e => {
+            e.preventDefault();
+            let username = $("#username").val();
+            let password = $("#password").val();
+            let status = true;
+            if(username.length == 0) status = false; $("#username").addClass("border-red-500"); $("#username").on("keyup", e => {if($("#username").val().length == 0)$("#username").addClass("border-red-500"); else $("#username").removeClass("border-red-500");});
+            if(password.length == 0) status = false; $("#password").addClass("border-red-500"); $("#password").on("keyup", e => {if($("#password").val().length == 0)$("#password").addClass("border-red-500"); else $("#password").removeClass("border-red-500");});
+            if(status){
+                $.post("/login", {username:username, password:password}, (data) => {
+                    if(data.status == 200){ 
+                        setCookie("token", data.data, 1);
+                        location = "/dashboard";
+                    } 
+                });
+            }
+        });
+
+        $("#toggle-visibility-password").click(e => {
+            if(e.currentTarget.children[0].style.display == "block"){
+                $("#password").attr("type", "text");
+                e.currentTarget.children[0].style.display = "none";e.currentTarget.children[1].style.display = "block";
+            }else{
+                $("#password").attr("type", "password");
+                e.currentTarget.children[0].style.display = "block";e.currentTarget.children[1].style.display = "none";
+            }
+        });
+    </script>
+    
+</body>
+</html>

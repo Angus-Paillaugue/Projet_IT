@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="http://localhost/Projet_IT/public/js/main.js"></script>
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <div class="flex flex-col sm:flex-row justify-center align-start flex-nowrap min-h-screen pb-16 sm:pb-0">
+        <nav id="navbar"></nav>
+
+        <div class="w-full flex flex-col items-center justify-center sm:ml-16 lg:ml-40">
+            <div class="border rounded border-gray-300 p-2 min-w-50 w-full max-w-md flex flex-col">
+                <h1 class="text-4xl font-sans font-semibold text-black">Welcome <span id="username"></span></h1>
+                <hr class="my-4 border-gray-300">
+                <a href="/book" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Book a robot</a>
+                <button onclick="deleteCookie('token');location.reload();" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center">Disconnect</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
+        function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}
+        function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
+
+        if(getCookie("token")){
+            $.post("/auth", {token:getCookie("token")}, (data) => {
+                if(data.status == 400){
+                    location = "/login";
+                }else{
+                    $("#username").text(data.data.data.username);
+                    $("#my-outfits-link").attr("href", `/user/${data.data.id}`);
+                }
+           });
+        }else{
+            location = "/login";
+        }
+    </script>
+    
+</body>
+</html>

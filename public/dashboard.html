@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <script src="http://localhost/Projet_IT/public/js/main.js"></script>
+    <script src="http://localhost/Projet_72h/public/js/main.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
@@ -17,6 +17,7 @@
             <div class="border rounded border-gray-300 p-2 min-w-50 w-full max-w-md flex flex-col">
                 <h1 class="text-4xl font-sans font-semibold text-black">Welcome <span id="username"></span></h1>
                 <hr class="my-4 border-gray-300">
+                <a href="/bookings" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">My bookings</a>
                 <a href="/book" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Book a robot</a>
                 <button onclick="deleteCookie('token');location.reload();" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center">Disconnect</button>
             </div>

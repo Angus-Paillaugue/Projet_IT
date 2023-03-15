@@ -1,5 +1,7 @@
+const url = new URL(window.location); 
+const urlWithoutPort = url.protocol+"//"+url.hostname;
 $("body").ready(function(){
-    head()
+    head();
     navbar();
 });
 
@@ -14,5 +16,5 @@ function navbar() {
 
 
 function head() {
-    $("head").append(`<link rel="stylesheet" href="http://localhost/Projet_IT/public/src/output.css">`);
+    $("head").append(`<link rel="stylesheet" href="http://localhost/Projet_72h/public/src/output.css">`);
 }

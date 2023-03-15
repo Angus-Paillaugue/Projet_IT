@@ -134,5 +134,3 @@ function generateAccessToken(username) {return jwt.sign(username, process.env.TO
 app.listen(8000 || process.env.PORT, () => {
     console.log(`Listening on http://localhost:${8000 || process.env.PORT}`);
 });
-
-exports.app = functions.https.onRequest(app);

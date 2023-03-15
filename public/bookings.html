@@ -35,7 +35,7 @@
                             bookings.data.forEach(booking => {
                                 $.get(`/robotInfo/${booking.data.robot}`, function(data){
                                     if(data.status == 200){
-                                        console.log(booking);
+                                        console.log(booking.data);
                                         $("#bookings").append(`<div class="border rounded border-gray-300 p-2 flex flex-col gap-2" id="booking-${booking.id}"><p>You booked <b>${data.data.name}</b> for the ${new Date(booking.data.date).toLocaleDateString("fr-FR")}</p><div class="w-full flex gap-2 flex-row"><button>More info</button><button>Delete this booking</button></div></div>`);
                                     }
                                 })

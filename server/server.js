@@ -33,7 +33,6 @@ app.get('/dashboard', (req, res) => {res.sendFile("public/dashboard.html", {root
 app.get('/book', (req, res) => {res.sendFile("public/book.html", {root: "../"});});
 app.get('/bookings', (req, res) => {res.sendFile("public/bookings.html", {root: "../"});});
 app.get("/navbar", async(req, res) => {res.sendFile("public/src/navbar.html", {root: "../"})});
-app.get("/robot/:id", async(req, res) => {res.sendFile("public/robot.html", {root: "../"})});
 
 app.post("/login", async(req, res) => {
     const username = req.body.username;
@@ -87,6 +86,7 @@ app.get("/myBookings", async(req, res) => {
             const bookings = await reservationsRef.where('userId', '==', doc.id).get();
             let send = [];
             bookings.forEach(async (doc) => {
+                delete doc.data().code;
                 send.push({id:doc.id, data:doc.data()});
             });
             res.send({status:200, data:send});
@@ -102,7 +102,8 @@ app.post("/book", async(req, res) => {
         if (err) return res.send({status:400, data:"Invalid token"});
         const users = await usersRef.where('username', '==', username).get();
         users.forEach(async (doc) => {
-            await reservationsRef.add({userId:doc.id, robot:robot, date:date});
+            const code = Math.floor(1000 + (9999 - 1000) * Math.random());
+            await reservationsRef.add({userId:doc.id, robot:robot, date:date, code:code});
             res.send({status:200, data:"Ok"});
         });
     });
@@ -117,6 +118,48 @@ app.get("/robotInfo/:id", async(req, res) => {
         res.send({status:400, data:err});
     }
 }); 
+
+app.post("/deleteBooking", (req, res) => {
+    const token = req.body.token;
+    const id = req.body.id;
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+        if (err) return res.send({status:400, data:"Invalid token"});
+        await reservationsRef.doc(`${id}`).delete();
+        res.send({status:"200", data:"OK"});
+    });
+})
+
+app.get("/shedCode/:reservationId", async(req, res) => {
+    try {
+        const reservationId = req.params.reservationId;
+        const token = req.query.token;
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            const booking = await reservationsRef.doc(`${reservationId}`).get();
+            res.send({status:200, data:booking.data().code})
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+}); 
+
+app.post("/checkCode", async(req, res) => {
+    try {
+        const shedNo = req.body.shedNo;
+        const code = req.body.code;
+        if(!code || code > 9999) res.status(400).send("Please provide a code"); else{
+            const robot = await robotsRef.where("shedNo", "==", shedNo).get();
+            const bookings = await reservationsRef.where("robot", "==", `${robot.docs[0].id}`).get();
+            bookings.forEach(doc => {
+                if(new Date(doc.data().date).toLocaleDateString() == new Date().toLocaleDateString()){
+                    if(doc.data().code == code) res.status(200).send("Code OK"); else res.status(400).send("Code not OK");
+                }
+            });
+        }
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+});
 
 setInterval(checkBookingsDates, 10000);
 async function checkBookingsDates(){

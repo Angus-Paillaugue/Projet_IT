@@ -9,7 +9,121 @@
     <title>Acceuil</title>
 </head>
 <body>
-    <nav id="navbar">
-    </nav>
+
+    <div class="flex flex-col sm:flex-row align-start min-h-screen pb-16 sm:pb-0">
+        <nav id="navbar"></nav>
+
+        <div class="flex flex-col sm:ml-16 lg:ml-40 w-full">
+            <div class="w-full h-screen flex flex-col justify-end" id="landingScreen" style="background-image: url('https://www.papierpeintpanoramique.fr/media/catalog/product/cache/871f459736130e239a3f5e6472128962/w/0/w04963_option4.jpg'); background-repeat: no-repeat;background-position: center;background-size: cover;">
+                <div class="h-full flex flex-col justify-center p-2">
+                    <div class="border rounded border-gray-300 p-2 min-w-50 w-full max-w-md bg-white">
+                        <h1 class="text-4xl font-sans font-semibold text-neutral-700">Robot booking system</h1>
+                        <p class="text-base font-sans font-semibold text-neutral-500 mt-1">Use this website to book robots to help you in your everyday military job.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex sm:flex-row flex-col max-w-full gap-5 p-2" id="cardsContainer"></div>
+        </div>
+    </div>
+
+    <style>
+        .wrap {transform-style: preserve-3d;transform: perspective(100rem);}
+        .container {
+            --rX: 0;
+            --rY: 0;
+            --bX: 50%;
+            --bY: 80%;
+            transform: rotateX(calc(var(--rX) * 1deg)) rotateY(calc(var(--rY) * 1deg));
+            box-shadow: 0 0 3rem .5rem hsla(0, 0%, 0%, .2);
+            transition: transform .6s 1s;
+        }
+        .container::before,
+        .container::after {
+            content: "";
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid #fff;
+            position: absolute;
+            z-index: 2;
+            opacity: .3;
+            transition: .3s;
+        }
+        .container::before {
+            top: 2rem;
+            right: 2rem;
+            border-bottom-width: 0;
+            border-left-width: 0;
+        }
+        .container::after {
+            bottom: 2rem;
+            left: 2rem;
+            border-top-width: 0;
+            border-right-width: 0;
+        }
+        .container--active {transition: none;}
+        .container {filter: hue-rotate(80deg) saturate(140%);}
+        .wrap:hover .container::before,
+        .wrap:hover .container::after {width: calc(100% - 4rem);height: calc(100% - 4rem);}
+    </style>
+
+    <script>
+        $.get("/availableRobots", (data) => {
+            if(data.status == 200) {
+                data.data.forEach((robot, index) => {
+                    $("#cardsContainer").append(`<div onclick="location='/book'" class="wrap wrap--${index} w-full cursor-pointer"><div class="container container--${index} w-full aspect-[2/3] flex relative rounded-[2.5rem] items-end p-16" style="background: linear-gradient(hsla(0, 0%, 100%, .1), hsla(0, 0%, 100%, .1)), url('${robot.data.img}');background-position: var(--bX) var(--bY);background-repeat: no-repeat;background-size: cover;"><p class="text-neutral-300 text-3xl">${robot.data.name}</p></div></div>`);
+                    new parallaxTiltEffect({element:$(`.wrap--${index}`)[0]});
+                });
+            }
+        })
+
+        class parallaxTiltEffect {
+            constructor({element}) {
+                this.element = element;
+                this.container = this.element.querySelector(".container");
+                this.size = [300, 360];
+                [this.w, this.h] = this.size;
+                this.mouseOnComponent = false;
+                this.handleMouseMove = this.handleMouseMove.bind(this);
+                this.handleMouseEnter = this.handleMouseEnter.bind(this);
+                this.handleMouseLeave = this.handleMouseLeave.bind(this);
+                this.defaultStates = this.defaultStates.bind(this);
+                this.setProperty = this.setProperty.bind(this);
+                this.init = this.init.bind(this);
+                this.init();
+            }
+            handleMouseMove(event) {
+                const {offsetX, offsetY} = event;
+                let X = (-(offsetX - (this.w/2)) / 20) / 3
+                let Y = ((offsetY - (this.h/2)) / 20) / 3;
+                this.setProperty('--rY', X.toFixed(2));
+                this.setProperty('--rX', Y.toFixed(2));
+                this.setProperty('--bY', (80 - (X/4).toFixed(2)) + '%');
+                this.setProperty('--bX', (50 - (Y/4).toFixed(2)) + '%');
+            }
+            handleMouseEnter() {
+                this.mouseOnComponent = true;
+                this.container.classList.add("container--active");
+            }
+            handleMouseLeave() {
+                this.mouseOnComponent = false;
+                this.defaultStates();
+            }
+            defaultStates() {
+                this.container.classList.remove("container--active");
+                this.setProperty('--rY', 0);
+                this.setProperty('--rX', 0);
+                this.setProperty('--bY', '80%');
+                this.setProperty('--bX', '50%');
+            }
+            setProperty(p, v) {
+                return this.container.style.setProperty(p, v);
+            }
+            init() {
+                this.element.addEventListener('mousemove', this.handleMouseMove);
+                this.element.addEventListener('mouseenter', this.handleMouseEnter);
+                this.element.addEventListener('mouseleave', this.handleMouseLeave);
+            }
+        }
+    </script>
 </body>
 </html>

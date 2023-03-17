@@ -45,7 +45,7 @@
                     })
                 }
            });
-        }
+        }else location = "/login?redirect=book"
         function book(robotId){
             $.get("/availableRobots", function(robots){
                 if(robots.status == 200){

@@ -39,12 +39,14 @@
                                         $.get(`/shedCode/${booking.id}?token=${getCookie("token")}`,function(data){if(data.status == 200)$(`#codeP-${booking.id}`).text(data.data);});
                                     }
                                 })
+                                let items = $("#bookings").children().sort(function(a, b) {let vA = $(a).attr("data-index");let vB = $(b).attr("data-index");return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;});
+                                $("#bookings").append(items);
                             });
                         }
                     });
                 }
             });
-        }else location = "/login";
+        }else location = "/login?redirect=bookings";
 
         function toggleCode(id, button){$(`#codeP-${id}`).toggleClass("blur-sm");if($(button).text() == "Show code")$(button).text("Hide code");else $(button).text("Show code"); }
         function deleteBooking(id){$.post(`/deleteBooking`, {token:getCookie("token"), id:id}, function(data){if(data.status == 200){$(`#booking-${id}`).remove();$(`#deleteModal-${id}`).remove();}});}

@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+var nodemailer = require('nodemailer');
 
 // Express ant third parties
 const app = express();
@@ -25,6 +26,15 @@ const usersRef = db.collection('users');
 const robotsRef = db.collection('robots');
 const reservationsRef = db.collection('reservations');
 
+// Node mailer
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: "angus.paillaugue40@gmail.com",
+      pass: process.env.EMAIL_PASSWORD
+    }
+});  
+
 
 // Client routes
 app.get('/', (req, res) => {res.sendFile("public/index.html", {root: "../"});});
@@ -33,6 +43,10 @@ app.get('/dashboard', (req, res) => {res.sendFile("public/dashboard.html", {root
 app.get('/book', (req, res) => {res.sendFile("public/book.html", {root: "../"});});
 app.get('/bookings', (req, res) => {res.sendFile("public/bookings.html", {root: "../"});});
 app.get("/navbar", async(req, res) => {res.sendFile("public/src/navbar.html", {root: "../"})});
+app.get("/admin-dashboard", async(req, res) => {res.sendFile("public/admin/adminDashboard.html", {root: "../"})});
+app.get("/manage-users", async(req, res) => {res.sendFile("public/admin/manageUsers.html", {root: "../"})});
+app.get("/reset-password/:id", async(req, res) => {res.sendFile("public/resetPassword.html", {root: "../"})});
+app.get("/create-password/:id", async(req, res) => {res.sendFile("public/createPassword.html", {root: "../"})});
 
 app.post("/login", async(req, res) => {
     const username = req.body.username;
@@ -50,7 +64,7 @@ app.post("/login", async(req, res) => {
             });
         });
     }else{
-        res.send({status:400, data:"User with this username doen't exists!"});
+        res.send({status:400, data:"User with this username doesn't exists!"});
     }
 });
 app.post("/auth", (req, res) => {
@@ -59,7 +73,7 @@ app.post("/auth", (req, res) => {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
         if (err) return res.send({status:400, data:"Invalid token"});
         const users = await usersRef.where('username', '==', username).get();
-        users.forEach(doc => {res.send({status:200, data:{id:doc.id, data:doc.data()}})});
+        users.forEach(doc => {res.send({status:200, data:{id:doc.id, username:doc.data().username, isAdmin:doc.data().isAdmin}})});
     });
 });
 
@@ -161,12 +175,148 @@ app.post("/checkCode", async(req, res) => {
     }
 });
 
+app.get("/allUsers", async(req, res) => {
+    try {
+        const token = req.query.token;
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            const user = await usersRef.where("username", "==", `${username}`).get();
+            if(user.docs[0].data().isAdmin){
+                const allUsers = await usersRef.get();
+                let send = [];
+                allUsers.forEach(user => {
+                    if(user.id !== "Do not delete") send.push({id:user.id, username: user.data().username, isAdmin:user.data().isAdmin});
+                })
+                res.send({status:200, data:send})
+            }else{
+                res.send({status:400, data:"Auth error"});
+            }
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+}); 
+
+app.post("/changeAdminRights", async(req, res) => {
+    try {
+        const token = req.body.token;
+        const id = req.body.id;
+        const value = req.body.value == "true" ? true : false;
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            const user = await usersRef.where("username", "==", `${username}`).get();
+            if(user.docs[0].data().isAdmin){
+                usersRef.doc(`${id}`).update({isAdmin:value});
+                res.send({status:200, data:"Done!"});
+            }else{
+                res.send({status:400, data:"Auth error"});
+            }
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+});
+
+app.post("/resetPassword", async(req, res) => {
+    try {
+        const token = req.body.token;
+        const id = req.body.id;
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            const user = await usersRef.where("username", "==", `${username}`).get();
+            if(user.docs[0].data().isAdmin){
+                const userToReset = await usersRef.doc(`${id}`).get();
+                var mailOptions = {
+                    from: process.env.email,
+                    to: userToReset.data().email,
+                    subject: 'Reset your password',
+                    text: `You'll find below the link to reset your password. This link is only available for 5 minutes. http://localhost:8000/reset-password/${userToReset.id}`
+                };
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) res.send({status:400, data:"Mail error"}); else res.send({status:200, data:"Mail sent"});
+                });
+            }else{
+                res.send({status:400, data:"Auth error"});
+            }
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+});
+
+app.post("/newPassword", async(req, res) => {
+    try {
+        const id = req.body.id;
+        const password = req.body.password;
+        bcrypt.genSalt(saltRounds, (err, salt) => {
+            bcrypt.hash(password, salt, async(err, hash) => {
+                usersRef.doc(`${id}`).update({password:hash});
+                let user = usersRef.doc(`${id}`).get()
+                res.send({status:200, data:generateAccessToken((await user).data().username)});
+            });
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+});
+
+app.post("/deleteUser", async(req, res) => {
+    try {
+        const token = req.body.token;
+        const id = req.body.id;
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            const user = await usersRef.where("username", "==", `${username}`).get();
+            if(user.docs[0].data().isAdmin){
+                await usersRef.doc(`${id}`).delete();
+                res.send({status:200, data:"Done"});
+            }else{
+                res.send({status:400, data:"Auth error"});
+            }
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+});
+
+app.post("/createUser", async(req, res) => {
+    try {
+        const token = req.body.token;
+        const createdUserUsername = req.body.username;
+        const email = req.body.email;
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            const user = await usersRef.where("username", "==", `${username}`).get();
+            if(user.docs[0].data().isAdmin){
+                let check1 = await usersRef.where("username", "==", `${createdUserUsername}`).get();
+                let check2 = await usersRef.where("email", "==", `${email}`).get();
+                if(check1.docs.length == 0 && check2.docs.length == 0){
+                    let createdUser = await usersRef.add({username:createdUserUsername, email:email, password:null, isAdmin:false});
+                    var mailOptions = {
+                        from: process.env.email,
+                        to: email,
+                        subject: 'Account created',
+                        text: `You'll find below the link to create your password. http://localhost:8000/create-password/${createdUser.id}`
+                    };
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) res.send({status:400, data:"Mail error"}); else res.send({status:200, data:"Mail sent"});
+                    });
+                }
+            }else{
+                res.send({status:400, data:"Auth error"});
+            }
+        });
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+});
+
 setInterval(checkBookingsDates, 10000);
 async function checkBookingsDates(){
     let bookings = await reservationsRef.where("robot", "!=", "null").get();
-    bookings.forEach(doc => {
+    bookings.forEach(async(doc) => {
         if(new Date(doc.data().date).toLocaleDateString() < new Date().toLocaleDateString()){
-            console.log(`Need to delete ${doc.id}`);
+            await reservationsRef.doc(`${doc.id}`).delete();
         }
     });
 }

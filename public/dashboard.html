@@ -34,7 +34,8 @@
                 if(data.status == 400){
                     location = "/login";
                 }else{
-                    $("#username").text(data.data.data.username);
+                    if(data.data.isAdmin == true) location = "/admin-dashboard"
+                    $("#username").text(data.data.username);
                     $("#my-outfits-link").attr("href", `/user/${data.data.id}`);
                 }
            });

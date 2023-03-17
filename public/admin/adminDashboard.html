@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="http://localhost/Projet_72h/public/js/main.js"></script>
+    <title>Admin dashboard</title>
+</head>
+<body>
+
+    <div class="flex flex-col sm:flex-row justify-center align-start flex-nowrap min-h-screen pb-16 sm:pb-0">
+        <nav id="navbar"></nav>
+
+        <div class="w-full flex flex-col items-center justify-center sm:ml-16 lg:ml-40">
+            <div class="border rounded border-gray-300 p-2 min-w-50 w-full max-w-md flex flex-col">
+                <h1 class="text-4xl font-sans font-semibold text-black">Welcome <span id="usernamePlaceholder"></span></h1>
+                <hr class="my-4 border-gray-300">
+                <p class="text-xl mb-2 text-neutral-700">Admin actions</p>
+                <a href="/manage-users" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Manage users</a>
+                <button class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center" onclick="$('#addUserModal').toggleClass('hidden')">Create user</button>
+                <hr class="my-4 border-gray-300">
+                <p class="text-xl mb-2 text-neutral-700">User actions</p>
+                <a href="/bookings" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">My bookings</a>
+                <a href="/book" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Book a robot</a>
+                <button onclick="deleteCookie('token');location.reload();" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center">Disconnect</button>
+            </div>
+            
+            <div class="hidden absolute z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="addUserModal">
+                <div class="fixed inset-0 bg-neutral-500 bg-opacity-75 transition-opacity sm:ml-16 lg:ml-40"></div>
+                <div class="fixed inset-0 z-10 overflow-y-auto sm:ml-16 lg:ml-40 sm:mb-0 mb-16">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
+                            <div class="bg-white pt-4 sm:pt-4">
+                                <form>
+                                    <div class="sm:flex sm:items-start">
+                                        <div class="text-center sm:mt-0 sm:text-left w-full p-2">
+                                            <h3 class="text-xl font-semibold leading-6 text-neutral-900 mb-2" id="modal-title">Create a new user</h3>
+                                                <div class="relative mb-2">
+                                                    <input type="text" id="username" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer" placeholder=" " />
+                                                    <label for="username" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Username</label>
+                                                </div>
+                                                <div class="relative">
+                                                    <input type="text" id="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer" placeholder=" " />
+                                                    <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">E-mail</label>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-neutral-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button type="submit" id="submit" class="mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-neutral-300 sm:mt-0 sm:w-auto focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700">Create</button>
+                                        <button type="button" onclick="$('#addUserModal').addClass('hidden')" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
+        function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}
+        function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
+
+        if(getCookie("token")){
+            $.post("/auth", {token:getCookie("token")}, (data) => {
+                if(data.status == 400){
+                    location = "/login";
+                }else{
+                    if(data.data.isAdmin !== true) location = "/dashboard"
+                    $("#usernamePlaceholder").text(data.data.username);
+                    $("#my-outfits-link").attr("href", `/user/${data.data.id}`);
+
+                    $("form").submit((e) => {
+                        e.preventDefault();
+                        $.post("/createUser", {token:getCookie("token"), username:$("#username").val(), email:$("#email").val()}, function(data){if(data.status == 200) $('#addUserModal').addClass('hidden');});
+                    });
+                }
+           });
+        }else{
+            location = "/login";
+        }
+    </script>
+
+</body>
+</html>

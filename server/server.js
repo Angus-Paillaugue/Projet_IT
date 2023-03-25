@@ -45,6 +45,7 @@ app.get('/bookings', (req, res) => {res.sendFile("public/bookings.html", {root: 
 app.get("/navbar", async(req, res) => {res.sendFile("public/src/navbar.html", {root: "../"})});
 app.get("/admin-dashboard", async(req, res) => {res.sendFile("public/admin/adminDashboard.html", {root: "../"})});
 app.get("/manage-users", async(req, res) => {res.sendFile("public/admin/manageUsers.html", {root: "../"})});
+app.get("/settings", async(req, res) => {res.sendFile("public/settings.html", {root: "../"})});
 app.get("/reset-password/:id", async(req, res) => {res.sendFile("public/resetPassword.html", {root: "../"})});
 app.get("/create-password/:id", async(req, res) => {res.sendFile("public/createPassword.html", {root: "../"})});
 
@@ -73,7 +74,7 @@ app.post("/auth", (req, res) => {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
         if (err) return res.send({status:400, data:"Invalid token"});
         const users = await usersRef.where('username', '==', username).get();
-        users.forEach(doc => {res.send({status:200, data:{id:doc.id, username:doc.data().username, isAdmin:doc.data().isAdmin}})});
+        users.forEach(doc => {res.send({status:200, data:{id:doc.id, username:doc.data().username, email:doc.data().email, isAdmin:doc.data().isAdmin, profilePicture:doc.data().profilePicture}})});
     });
 });
 
@@ -115,11 +116,9 @@ app.post("/book", async(req, res) => {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
         if (err) return res.send({status:400, data:"Invalid token"});
         const users = await usersRef.where('username', '==', username).get();
-        users.forEach(async (doc) => {
-            const code = Math.floor(1000 + (9999 - 1000) * Math.random());
-            await reservationsRef.add({userId:doc.id, robot:robot, date:date, code:code});
-            res.send({status:200, data:"Ok"});
-        });
+        const code = Math.floor(1000 + (9999 - 1000) * Math.random());
+        await reservationsRef.add({userId:users.docs[0].id, robot:robot, date:date, code:code});
+        res.send({status:200, data:"Ok"});
     });
 });
 
@@ -291,7 +290,7 @@ app.post("/createUser", async(req, res) => {
                 let check1 = await usersRef.where("username", "==", `${createdUserUsername}`).get();
                 let check2 = await usersRef.where("email", "==", `${email}`).get();
                 if(check1.docs.length == 0 && check2.docs.length == 0){
-                    let createdUser = await usersRef.add({username:createdUserUsername, email:email, password:null, isAdmin:false});
+                    let createdUser = await usersRef.add({username:createdUserUsername, email:email, password:null, isAdmin:false, profilePicture:"http://localhost/Projet_72h/public/src/defaultProfilePicture.png"});
                     var mailOptions = {
                         from: process.env.email,
                         to: email,
@@ -309,6 +308,58 @@ app.post("/createUser", async(req, res) => {
     } catch (err) {
         res.send({status:400, data:err});
     }
+});
+
+// Settings
+app.post("/updateSettings", (req, res) => {
+    try {
+        const token = req.body.token;
+        const parameterToChange = req.body.parameterToChange;
+        if (token == null) return res.sendStatus(401)
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+            if (err) return res.send({status:400, data:"Invalid token"});
+            let user = await usersRef.where("username", "==", `${username}`).get();
+            user = user.docs[0];
+            switch (parameterToChange){
+                case 'email':
+                    let newEmail = req.body.newEmail;
+                    await usersRef.doc(`${user.id}`).update({email:newEmail});
+                    res.send({status:200, data:"Done"});
+                    break;
+                case 'username':
+                    let newUsername = req.body.newUsername;
+                    await usersRef.doc(`${user.id}`).update({username:newUsername});
+                    res.send({status:200, data:"Done"});
+                    break;
+                case 'password':
+                    let oldPassword = req.body.oldPassword;
+                    let newPassword = req.body.newPassword;
+                    bcrypt.compare(oldPassword, user.data().password, async function(err, compare) {
+                        if(compare){
+                            bcrypt.genSalt(saltRounds, (err, salt) => {
+                                bcrypt.hash(newPassword, salt, async(err, hash) => {
+                                    if(err) res.send({status:400, data: "An error occurred"}); else{
+                                        await usersRef.doc(`${user.id}`).update({password:hash});
+                                        res.send({status:200, data:"Done"});
+                                    }
+                                });
+                            });
+                        }else res.send({status:400, error: "Incorrect password"});
+                    });
+                    break;
+                case 'profilePicture':
+                    let newProfilePicture = req.body.newProfilePicture;
+                    await usersRef.doc(`${user.id}`).update({profilePicture:newProfilePicture});
+                    res.send({status:200, data:"Done"});
+                    break;
+                case 'bio':
+                    let newBio = req.body.newBio;
+                    await usersRef.doc(`${user.id}`).update({bio:newBio});
+                    res.send({status:200, data:"Done"});
+                    break;
+            }
+        });
+    }catch(err){res.send({status:400, error:`Error : ${err}`});}
 });
 
 setInterval(checkBookingsDates, 10000);

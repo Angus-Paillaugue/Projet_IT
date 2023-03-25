@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <script src="http://localhost/Projet_72h/public/js/main.js"></script>
+    <script src="http://localhost/Projet_72h/public/src/main.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
@@ -34,6 +34,7 @@
                 if(data.status == 400){
                     location = "/login";
                 }else{
+                    console.log(data.data);
                     if(data.data.isAdmin == true) location = "/admin-dashboard"
                     $("#username").text(data.data.username);
                     $("#my-outfits-link").attr("href", `/user/${data.data.id}`);

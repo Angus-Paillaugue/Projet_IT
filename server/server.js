@@ -184,7 +184,7 @@ app.get("/allUsers", async(req, res) => {
                 const allUsers = await usersRef.get();
                 let send = [];
                 allUsers.forEach(user => {
-                    if(user.id !== "Do not delete") send.push({id:user.id, username: user.data().username, isAdmin:user.data().isAdmin});
+                    if(user.id !== "Do not delete") send.push({id:user.id, username: user.data().username, isAdmin:user.data().isAdmin, profilePicture:user.data().profilePicture});
                 })
                 res.send({status:200, data:send})
             }else{
@@ -250,8 +250,8 @@ app.post("/newPassword", async(req, res) => {
         bcrypt.genSalt(saltRounds, (err, salt) => {
             bcrypt.hash(password, salt, async(err, hash) => {
                 usersRef.doc(`${id}`).update({password:hash});
-                let user = usersRef.doc(`${id}`).get()
-                res.send({status:200, data:generateAccessToken((await user).data().username)});
+                let user = await usersRef.doc(`${id}`).get()
+                res.send({status:200, data:generateAccessToken(user.data().username)});
             });
         });
     } catch (err) {
@@ -300,10 +300,8 @@ app.post("/createUser", async(req, res) => {
                     transporter.sendMail(mailOptions, function(error, info){
                         if (error) res.send({status:400, data:"Mail error"}); else res.send({status:200, data:"Mail sent"});
                     });
-                }
-            }else{
-                res.send({status:400, data:"Auth error"});
-            }
+                }else res.send({status:400, data:"User already exists with this credentials!"});
+            }else res.send({status:400, data:"Auth error"});
         });
     } catch (err) {
         res.send({status:400, data:err});

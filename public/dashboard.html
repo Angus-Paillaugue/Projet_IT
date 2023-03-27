@@ -75,6 +75,7 @@
                 if(data.status == 400){
                     location = "/login";
                 }else{
+                    if(data.data.isAdmin) location = "/admin-dashboard"
                     $("#usernamePlaceholder").text(data.data.username);
                 }
             });

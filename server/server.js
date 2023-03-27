@@ -158,19 +158,23 @@ app.get("/shedCode/:reservationId", async(req, res) => {
 
 app.post("/checkCode", async(req, res) => {
     try {
-        const shedNo = req.body.shedNo;
-        const code = req.body.code;
+        const shedNo = req.query.shedNo;
+        const code = req.query.code;
         if(!code || code > 9999) res.status(400).send("Please provide a code"); else{
-            const robot = await robotsRef.where("shedNo", "==", shedNo).get();
-            const bookings = await reservationsRef.where("robot", "==", `${robot.docs[0].id}`).get();
-            bookings.forEach(doc => {
-                if(new Date(doc.data().date).toLocaleDateString() == new Date().toLocaleDateString()){
-                    if(doc.data().code == code) res.status(200).send("Code OK"); else res.status(400).send("Code not OK");
-                }
-            });
+            if(parseInt(shedNo) >= 0){
+                const robot = await robotsRef.where("shedNo", "==", parseInt(shedNo)).get();
+                const bookings = await reservationsRef.where("robot", "==", `${robot.docs[0].id}`).get();
+                console.log("y")
+                bookings.forEach(doc => {
+                    console.log(doc.data().code)
+                    if(new Date(doc.data().date).toLocaleDateString() == new Date().toLocaleDateString()){
+                        if(doc.data().code == code) res.status(200).send("Code OK"); else res.status(400).send("Code not OK");
+                    }
+                });
+            }else res.status(400).send("Incorrect shed number");
         }
     } catch (err) {
-        res.send({status:400, data:err});
+        res.status(400).send(err);
     }
 });
 

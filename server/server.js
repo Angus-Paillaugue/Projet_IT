@@ -77,13 +77,11 @@ app.post("/auth", (req, res) => {
         users.forEach(doc => {res.send({status:200, data:{id:doc.id, username:doc.data().username, email:doc.data().email, isAdmin:doc.data().isAdmin, profilePicture:doc.data().profilePicture}})});
     });
 });
-
 app.get("/availableRobots", async(req, res) => {
     let robots = await robotsRef.get();
     robots = robots.docs.map(doc => {return {id:doc.id, data:doc.data()}});
     res.send({status:200, data:robots});
 }); 
-
 app.get("/bookings/:id", async(req, res) => {
     const robotId = req.params.id;
     let send = [];
@@ -91,24 +89,22 @@ app.get("/bookings/:id", async(req, res) => {
     robots.forEach(reservation => {send.push(reservation.data());});
     res.send({status:200, data:send});
 }); 
-
 app.get("/myBookings", async(req, res) => {
     const token = req.query.token;
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
         if (err) return res.send({status:400, data:"Invalid token"});
         const users = await usersRef.where('username', '==', username).get();
-        users.forEach(async (doc) => {
-            const bookings = await reservationsRef.where('userId', '==', doc.id).get();
-            let send = [];
-            bookings.forEach(async (doc) => {
+        const bookings = await reservationsRef.where('userId', '==', users.docs[0].id).get();
+        let send = [];
+        bookings.forEach(async (doc) => {
+            if(new Date(doc.data().date).toLocaleDateString() >= new Date().toLocaleDateString()){
                 delete doc.data().code;
                 send.push({id:doc.id, data:doc.data()});
-            });
-            res.send({status:200, data:send});
+            }
         });
+        res.send({status:200, data:send});
     });
 }); 
-
 app.post("/book", async(req, res) => {
     const token = req.body.token;
     const robot = req.body.robot;
@@ -121,7 +117,6 @@ app.post("/book", async(req, res) => {
         res.send({status:200, data:"Ok"});
     });
 });
-
 app.get("/robotInfo/:id", async(req, res) => {
     try {
         const id = req.params.id;
@@ -131,17 +126,20 @@ app.get("/robotInfo/:id", async(req, res) => {
         res.send({status:400, data:err});
     }
 }); 
-
 app.post("/deleteBooking", (req, res) => {
     const token = req.body.token;
     const id = req.body.id;
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
         if (err) return res.send({status:400, data:"Invalid token"});
-        await reservationsRef.doc(`${id}`).delete();
-        res.send({status:"200", data:"OK"});
+        const user = await usersRef.where("username", "==", `${username}`).get();
+        let booking = await reservationsRef.doc(`${id}`).get();
+        let userWhoBooked = await usersRef.doc(`${booking.data().userId}`).get();
+        if(user.docs[0].data().isAdmin || userWhoBooked.data().username == username){
+            await reservationsRef.doc(`${id}`).delete();
+            res.send({status:"200", data:"OK"});
+        }
     });
-})
-
+});
 app.get("/shedCode/:reservationId", async(req, res) => {
     try {
         const reservationId = req.params.reservationId;
@@ -155,7 +153,6 @@ app.get("/shedCode/:reservationId", async(req, res) => {
         res.send({status:400, data:err});
     }
 }); 
-
 app.post("/checkCode", async(req, res) => {
     try {
         const shedNo = req.query.shedNo;
@@ -166,7 +163,6 @@ app.post("/checkCode", async(req, res) => {
                 const bookings = await reservationsRef.where("robot", "==", `${robot.docs[0].id}`).get();
                 console.log("y")
                 bookings.forEach(doc => {
-                    console.log(doc.data().code)
                     if(new Date(doc.data().date).toLocaleDateString() == new Date().toLocaleDateString()){
                         if(doc.data().code == code) res.status(200).send("Code OK"); else res.status(400).send("Code not OK");
                     }
@@ -177,7 +173,6 @@ app.post("/checkCode", async(req, res) => {
         res.status(400).send(err);
     }
 });
-
 app.get("/allUsers", async(req, res) => {
     try {
         const token = req.query.token;
@@ -199,7 +194,6 @@ app.get("/allUsers", async(req, res) => {
         res.send({status:400, data:err});
     }
 }); 
-
 app.post("/changeAdminRights", async(req, res) => {
     try {
         const token = req.body.token;
@@ -219,7 +213,6 @@ app.post("/changeAdminRights", async(req, res) => {
         res.send({status:400, data:err});
     }
 });
-
 app.post("/resetPassword", async(req, res) => {
     try {
         const token = req.body.token;
@@ -246,7 +239,6 @@ app.post("/resetPassword", async(req, res) => {
         res.send({status:400, data:err});
     }
 });
-
 app.post("/newPassword", async(req, res) => {
     try {
         const id = req.body.id;
@@ -262,7 +254,6 @@ app.post("/newPassword", async(req, res) => {
         res.send({status:400, data:err});
     }
 });
-
 app.post("/deleteUser", async(req, res) => {
     try {
         const token = req.body.token;
@@ -281,7 +272,6 @@ app.post("/deleteUser", async(req, res) => {
         res.send({status:400, data:err});
     }
 });
-
 app.post("/createUser", async(req, res) => {
     try {
         const token = req.body.token;
@@ -311,8 +301,6 @@ app.post("/createUser", async(req, res) => {
         res.send({status:400, data:err});
     }
 });
-
-// Settings
 app.post("/updateSettings", (req, res) => {
     try {
         const token = req.body.token;
@@ -363,8 +351,28 @@ app.post("/updateSettings", (req, res) => {
         });
     }catch(err){res.send({status:400, error:`Error : ${err}`});}
 });
+app.get("/allBookings", async(req, res) => {
+    const token = req.query.token;
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
+        if (err) return res.send({status:400, data:"Invalid token"});
+        const user = await usersRef.where("username", "==", `${username}`).get();
+        if(user.docs[0].data().isAdmin){
+            const users = await usersRef.where('email', '!=', "null").get();
+            const bookings = await reservationsRef.where('userId', '==', users.docs[0].id).get();
+            let send = [];
+            for await (let doc of bookings.docs){
+                let user = await usersRef.doc(`${doc.data().userId}`).get();
+                let robot = await robotsRef.doc(`${doc.data().robot}`).get();
+                send.push({id:doc.id, data:doc.data(), user:user.data(), robot:robot.data()});
+            }
+            res.send({status:200, data:send});
+        }else{
+            res.send({status:400, data:"Auth error"});
+        }
+    });
+}); 
 
-setInterval(checkBookingsDates, 10000);
+// setInterval(checkBookingsDates, 10000);
 async function checkBookingsDates(){
     let bookings = await reservationsRef.where("robot", "!=", "null").get();
     bookings.forEach(async(doc) => {

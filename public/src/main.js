@@ -3,15 +3,15 @@ $(function() {
 });
 function main() {
     // Append scrips in the head
-    $("head").append(`<script type="text/javascript" src="https://livejs.com/live.js"></script><link rel="stylesheet" href="http://localhost/Projet_72h/public/src/output.css">`);
+    $("head").append(`<script type="text/javascript" src="https://livejs.com/live.js"></script><link rel="stylesheet" href="http://localhost/Projet_72h/public/src/output.css"><meta name="theme-color" content="#4F46E5"><style>::selection{background-color: #4F46E5;}</style>`);
     
     // Color theme
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
     $(document).click((e) => {if(e.target.closest("#userMenuButton")){$($(".userMenuDropdown")[0]).toggleClass("hidden");}else if(!e.target.closest(".userMenuDropdown")){$($(".userMenuDropdown")[0]).addClass("hidden");} if(e.target.closest("#mobileMenuButton")){$("#mobileMenu").toggleClass("hidden");}else if(!e.target.closest("#mobileMenu")){$("#mobileMenu").addClass("hidden");}});
-    if(getCookie("token")){$.post("/auth", {token:getCookie("token")}, (data) => {if(data.status == 200) $(".profilePicture").each(function(){$(this).attr("src", data.data.profilePicture);});});}else $(".profilePicture").each(function(){$(this).attr("src", "http://localhost/Projet72h/public/src/defaultProfilePicture.png");});
+    if(getCookie("token")){$.post("/auth", {token:getCookie("token")}, (data) => {if(data.status == 200) $(".profilePicture").each(function(){$(this).attr("src", data.data.profilePicture);});});}else $(".profilePicture").each(function(){$(this).attr("src", "http://localhost/Projet_72h/public/src/defaultProfilePicture.png");});
 
     // Get logo and append it to wherever it's needed
-    $(".logo").attr("src", "http://localhost/Projet_72h/public/src/logo.png");$("head").append(`<link rel="icon" href="http://localhost/Projet72h/public/src/logo.png" type="image/x-icon">`);
+    $(".logo").attr("src", "http://localhost/Projet_72h/public/src/logo.png");$("head").append(`<link rel="icon" href="http://localhost/Projet_72h/public/src/logo.png" type="image/x-icon">`);
     $("#currentYear").text(new Date().getFullYear());
 }
 
@@ -26,3 +26,15 @@ class Notification {
         setTimeout(()=>{$(".notification").fadeOut(500, function() { $(this).remove(); });}, 3000);
     }
 }
+
+class Vibration {
+    constructor(vibrationArray){
+        this.vibrationArray = vibrationArray;
+    }
+    vibrate(){
+        const isMobile = navigator.userAgentData.mobile;
+        if(isMobile) navigator.vibrate(vibrationArray);
+    }
+}
+
+new Vibration([200, 50, 200]).vibrate();

@@ -60,12 +60,12 @@ app.post("/login", async(req, res) => {
                 if(compare){
                     res.send({status:200, data: generateAccessToken(username)});
                 }else{
-                    res.send({status:400, data: "Incorrect credentials"});
+                    res.send({status:400, data: "Incorrect password",  errorCode:1});
                 }
             });
         });
     }else{
-        res.send({status:400, data:"User with this username doesn't exists!"});
+        res.send({status:400, data:"User with this username doesn't exists!", errorCode:0});
     }
 });
 app.post("/auth", (req, res) => {

@@ -89,7 +89,7 @@
             $("#codeModal").fadeIn()
         }
         function toggleCode(id, button){$(`#codeP-${id}`).toggleClass("blur-sm");if($(button).text() == "Show code")$(button).text("Hide code");else $(button).text("Show code"); }
-        function deleteBooking(){let id = $("#deleteBookingButton").attr("data-robot-id");$.post(`/deleteBooking`, {token:getCookie("token"), id:id}, function(data){if(data.status == 200){$(`#booking-${id}`).remove();$(`#deleteBookingModal`).fadeOut();}});}
+        function deleteBooking(){let id = $("#deleteBookingButton").attr("data-robot-id");$.post(`/deleteBooking`, {token:getCookie("token"), id:id}, function(data){if(data.status == 200){$(`#booking-${id}`).remove();$(`#deleteBookingModal`).fadeOut();new Vibration([200, 50, 200]).vibrate();}});}
     </script>
     
 </body>

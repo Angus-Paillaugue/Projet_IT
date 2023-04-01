@@ -83,9 +83,7 @@
                 if(data.status == 400){
                     deleteCookie("token");
                     location.reload();
-                }else{
-                    location = "/dashboard";
-                }
+                }else location = "/dashboard";
            });
         }
         
@@ -133,7 +131,7 @@
             let password = $("#password").val();
             let status = true;
             if(username.length == 0){status = false; $("#username").addClass("border-red-500");$("#buttonMover").addClass("w-full");$("#buttonMover").removeClass("w-0");}else{$("#username").removeClass("border-red-500");}
-            if(password.length == 0){status = false;$("#password").addClass("border-red-500"); $("#buttonMover").addClass("w-full");$("#buttonMover").removeClass("w-0");}else{$("#username").removeClass("border-red-500");}
+            if(password.length == 0){status = false;$("#password").addClass("border-red-500"); $("#buttonMover").addClass("w-full");$("#buttonMover").removeClass("w-0");}else{$("#password").removeClass("border-red-500");}
 
             if(status){
                 $.post("/login", {username:username, password:password}, (data) => {

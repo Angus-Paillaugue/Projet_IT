@@ -68,9 +68,12 @@
                             </span>
                             <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Modified animations on log-in page</h3>
                             <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released on March 1st, 2023</time>
-                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Resolved bugs on</p>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Resolved bugs on login page and added an animation on log-in failed</p>
                         </li>
                     </ol>
+                </div>
+                <div class="mt-2 flex lg:flex-col flex-row">
+                    <div class="flex flex-col bg-white p-2"></div>
                 </div>
             </div>
         </main>
@@ -102,7 +105,7 @@
             $(".navbarHomeSection").attr('class', '').addClass("bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-900 dark:hover:bg-gray-700 dark:text-white rounded-md px-3 py-2 text-sm font-medium");
         });
 
-        async function getCommits(){
+        /*sync function getCommits(){
             const octokit = new Octokit({
                 auth: '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'
             });
@@ -117,12 +120,12 @@
             commits.data.forEach(commit => {
                 if(commit.commit.message.substring(0, 9) == "important"){
                     let message = commit.commit.message
-                    message.substring(0, 9)
+                    message = message.substring(9, message.length)
                     console.log(message);
                 }
             });
         }
-        getCommits()
+        getCommits()*/
     </script>
 
 </body>

@@ -52,7 +52,25 @@
             </div>
             <div class="mx-auto px-1 rounded-lg max-w-7xl py-6 mb-6 sm:p-6 lg:p-4 flex flex-col">
                 <!-- Page content -->
-                <div class="flex flex-col bg-white dark:bg-gray-800 p-3 gap-2 rounded text-indigo-500 mt-4">
+                <div class="flex flex-col bg-white dark:bg-gray-800 p-3 pl-6 gap-2 rounded text-indigo-500 mt-4">
+                    <ol class="relative border-l border-gray-200 dark:border-gray-700">                  
+                        <li class="mb-10 ml-6">            
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-full -left-3 dark:bg-indigo-900">
+                                <svg aria-hidden="true" class="w-3 h-3 text-indigo-600 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                            </span>
+                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">New robot<span class="bg-blue-100 text-indigo-600 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300 ml-3">Latest</span></h3>
+                            <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 3rd, 2023</time>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">A new robot has been added to the fleet : <b>Karinator</b>. This new robot takes the fleet to a workforce of 3! We are really looking forward to expand it even more!</p>
+                        </li>
+                        <li class="mb-10 ml-6">            
+                            <span class="absolute flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-full -left-3 dark:bg-indigo-900">
+                                <svg aria-hidden="true" class="w-3 h-3 text-indigo-600 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                            </span>
+                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Modified animations on log-in page</h3>
+                            <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released on March 1st, 2023</time>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Resolved bugs on</p>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </main>
@@ -74,15 +92,37 @@
             <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100 w-full max-w-7xl">@2023-<span id="currentYear"></span> Angus Inc, All right reserved</p>
         </footer>
     </div>
-                
-    <script>
+    <script type="module">
+        import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
         function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
         // Navbar
         $.get("/navbar", (data) => {
             $("nav").html(data);
             if(getCookie("token")) $(".notLogged").remove(); else $(".logged").remove();
-            $(".navbarHomeSection").attr('class', '').addClass("bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-900 dark:text-white rounded-md px-3 py-2 text-sm font-medium");
+            $(".navbarHomeSection").attr('class', '').addClass("bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-900 dark:hover:bg-gray-700 dark:text-white rounded-md px-3 py-2 text-sm font-medium");
         });
+
+        async function getCommits(){
+            const octokit = new Octokit({
+                auth: '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'
+            });
+              
+            let commits = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+                owner: 'mere-patrie',
+                repo: 'Projet_IT',
+                headers: {
+                    'X-GitHub-Api-Version': '2022-11-28'
+                }
+            });
+            commits.data.forEach(commit => {
+                if(commit.commit.message.substring(0, 9) == "important"){
+                    let message = commit.commit.message
+                    message.substring(0, 9)
+                    console.log(message);
+                }
+            });
+        }
+        getCommits()
     </script>
 
 </body>

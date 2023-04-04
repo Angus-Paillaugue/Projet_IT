@@ -56,15 +56,15 @@
                     <ol class="relative border-l border-gray-200 dark:border-gray-700">                  
                         <li class="mb-10 ml-6">            
                             <span class="absolute flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-full -left-3 dark:bg-indigo-900">
-                                <svg aria-hidden="true" class="w-3 h-3 text-indigo-600 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                <svg aria-hidden="true" class="w-3 h-3 text-indigo-600 dark:text-indigo-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                             </span>
-                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">New robot<span class="bg-blue-100 text-indigo-600 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300 ml-3">Latest</span></h3>
+                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">New robot<span class="bg-indigo-100 text-indigo-600 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300 ml-3">Latest</span></h3>
                             <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 3rd, 2023</time>
                             <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">A new robot has been added to the fleet : <b>Karinator</b>. This new robot takes the fleet to a workforce of 3! We are really looking forward to expand it even more!</p>
                         </li>
-                        <li class="mb-10 ml-6">            
+                        <li class="ml-6">            
                             <span class="absolute flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-full -left-3 dark:bg-indigo-900">
-                                <svg aria-hidden="true" class="w-3 h-3 text-indigo-600 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                <svg aria-hidden="true" class="w-3 h-3 text-indigo-600 dark:text-indigo-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                             </span>
                             <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Modified animations on log-in page</h3>
                             <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released on March 1st, 2023</time>
@@ -108,7 +108,7 @@
             border: 1px solid var(--background-color);
             transform: rotateX(calc(var(--rX) * 1deg)) rotateY(calc(var(--rY) * 1deg));
             box-shadow: 0 0 3rem .5rem hsla(0, 0%, 0%, .2);
-            transition: transform 1s;
+            transition: all 1s ease-out;
         }
         .container::before,
         .container::after {
@@ -143,9 +143,11 @@
         }
     </style>
 
-    <script type="module">
-        import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
-        function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
+    <script>
+        // import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+        function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
+        function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}
+        function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
         // Navbar
         $.get("/navbar", (data) => {
             $("nav").html(data);
@@ -153,7 +155,7 @@
             $(".navbarHomeSection").attr('class', '').addClass("bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-900 dark:hover:bg-gray-700 dark:text-white rounded-md px-3 py-2 text-sm font-medium");
         });
 
-        class parallaxTiltEffect {
+        class parallaxTiltCardEffect {
             constructor({element, tiltEffect}) {
                 this.element = element;
                 this.container = this.element.querySelector(".container");
@@ -174,12 +176,12 @@
                 let X;
                 let Y;
                 if (this.tiltEffect === "reverse") {
-                    X = ((offsetX - (this.w/2)) / 3) / 5;
-                    Y = (-(offsetY - (this.h/2)) / 3) / 5;
+                    X = ((offsetX - (this.w/2)) / 3) / 7;
+                    Y = (-(offsetY - (this.h/2)) / 3) / 7;
                 }
                 else if (this.tiltEffect === "normal") {
-                    X = (-(offsetX - (this.w/2)) / 3) / 5;
-                    Y = ((offsetY - (this.h/2)) / 3) / 5;
+                    X = (-(offsetX - (this.w/2)) / 3) / 7;
+                    Y = ((offsetY - (this.h/2)) / 3) / 7;
                 }
                 this.setProperty('--rY', X.toFixed(2));
                 this.setProperty('--rX', Y.toFixed(2));
@@ -214,27 +216,19 @@
         $.get("/allRobots", (data) => {
             if(data.status == 200){
                 data.data.forEach((robot, index) => {
-                    $("#robotsCards").append(`<div class="wrap cursor-pointer w-full">
-                        <a href="/book?robot=${robot.id}" class="container w-full p-12 rounded-lg flex relative items-end aspect-[2/3]" style="background: linear-gradient(hsla(0, 0%, 100%, .1), hsla(0, 0%, 100%, .1)), url('${robot.data.img}'); background-position: var(--bX) var(--bY);background-size: 40rem auto;"><p class="text-2xl text-gray-400 opacity-60 font-bold">${robot.data.name.charAt(0).toUpperCase() + robot.data.name.slice(1)}</p></a></div>`);
-                        new parallaxTiltEffect({
-                            element: $('.wrap')[index],
-                            tiltEffect: 'reverse'
-                        });
-                })
+                    $("#robotsCards").append(`<div class="wrap cursor-pointer w-full"><a href="/book?robot=${robot.id}" class="container w-full p-12 rounded-3xl flex relative items-end aspect-[2/3]" style="background: linear-gradient(hsla(0, 0%, 100%, .1), hsla(0, 0%, 100%, .1)), url('${robot.data.img}'); background-position: var(--bX) var(--bY);background-size: 40rem auto;"><p class="text-2xl text-neutral-400 opacity-60 font-bold">${robot.data.name.charAt(0).toUpperCase() + robot.data.name.slice(1)}</p></a></div>`);
+                    new parallaxTiltCardEffect({element: $('.wrap')[index], tiltEffect: 'reverse'});
+                });
             }
         });
 
-        /*sync function getCommits(){
-            const octokit = new Octokit({
-                auth: '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'
-            });
+        /*async function getCommits(){
+            const octokit = new Octokit({auth: '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'});
               
             let commits = await octokit.request('GET /repos/{owner}/{repo}/commits', {
                 owner: 'mere-patrie',
                 repo: 'Projet_IT',
-                headers: {
-                    'X-GitHub-Api-Version': '2022-11-28'
-                }
+                headers: {'X-GitHub-Api-Version': '2022-11-28'}
             });
             commits.data.forEach(commit => {
                 if(commit.commit.message.substring(0, 9) == "important"){

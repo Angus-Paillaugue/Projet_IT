@@ -77,13 +77,15 @@
                     $.get("/availableRobots", function(data){
                         if(data.status == 200){
                             data.data.forEach(robot => {
-                                let robotName = robot.data.name;
-                                robotName = robotName.charAt(0).toUpperCase() + robotName.slice(1);
+                                let robotName = robot.data.name.charAt(0).toUpperCase() + robot.data.name.slice(1);
                                 $("#robots").append(`<button onclick="book('${robot.id}')" class="dark:text-gray-300 text-gray-500">${robotName}</button>`);
                             });
                         }
                     });
-                    if(robotId) book(robotId);
+                    if(robotId) {
+                        book(robotId);
+                        history.pushState({}, null, window.location.origin+window.location.pathname);
+                    }
                 }
            });
         }else location = "/login?redirect=book"

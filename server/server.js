@@ -126,6 +126,19 @@ app.get("/robotInfo/:id", async(req, res) => {
         res.send({status:400, data:err});
     }
 }); 
+app.get("/allRobots", async(req, res) => {
+    try {
+        const id = req.params.id;
+        const robot = await robotsRef.get();
+        let send = [];
+        robot.docs.forEach(robot => {
+            send.push({id:robot.id,data:robot.data()});
+        });
+        res.send({status:200, data:send});
+    } catch (err) {
+        res.send({status:400, data:err});
+    }
+}); 
 app.post("/deleteBooking", (req, res) => {
     const token = req.body.token;
     const id = req.body.id;

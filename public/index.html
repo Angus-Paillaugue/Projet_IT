@@ -72,8 +72,7 @@
                         </li>
                     </ol>
                 </div>
-                <div class="mt-2 flex lg:flex-col flex-row">
-                    <div class="flex flex-col bg-white p-2"></div>
+                <div class="mt-2 flex flex-col md:flex-row gap-3" id="robotsCards">
                 </div>
             </div>
         </main>
@@ -95,6 +94,55 @@
             <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100 w-full max-w-7xl">@2023-<span id="currentYear"></span> Angus Inc, All right reserved</p>
         </footer>
     </div>
+
+    <style>
+        .wrap {
+            transform-style: preserve-3d;
+            transform: perspective(100rem);
+        }
+        .container {
+            --rX: 0;
+            --rY: 0;
+            --bX: 50%;
+            --bY: 80%;
+            border: 1px solid var(--background-color);
+            transform: rotateX(calc(var(--rX) * 1deg)) rotateY(calc(var(--rY) * 1deg));
+            box-shadow: 0 0 3rem .5rem hsla(0, 0%, 0%, .2);
+            transition: transform 1s;
+        }
+        .container::before,
+        .container::after {
+            content: "";
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid #fff;
+            position: absolute;
+            z-index: 2;
+            opacity: .3;
+            transition: .3s;
+        }
+        .container::before {
+            top: 2rem;
+            right: 2rem;
+            border-bottom-width: 0;
+            border-left-width: 0;
+        }
+        .container::after {
+            bottom: 2rem;
+            left: 2rem;
+            border-top-width: 0;
+            border-right-width: 0;
+        }
+        .container--active {
+            transition: none;
+        }
+        .wrap:hover .container::before,
+        .wrap:hover .container::after {
+            width: calc(100% - 4rem);
+            height: calc(100% - 4rem);
+        }
+    </style>
+
     <script type="module">
         import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
         function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
@@ -103,6 +151,77 @@
             $("nav").html(data);
             if(getCookie("token")) $(".notLogged").remove(); else $(".logged").remove();
             $(".navbarHomeSection").attr('class', '').addClass("bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-900 dark:hover:bg-gray-700 dark:text-white rounded-md px-3 py-2 text-sm font-medium");
+        });
+
+        class parallaxTiltEffect {
+            constructor({element, tiltEffect}) {
+                this.element = element;
+                this.container = this.element.querySelector(".container");
+                this.size = [300, 360];
+                [this.w, this.h] = this.size;
+                this.tiltEffect = tiltEffect;
+                this.mouseOnComponent = false;
+                this.handleMouseMove = this.handleMouseMove.bind(this);
+                this.handleMouseEnter = this.handleMouseEnter.bind(this);
+                this.handleMouseLeave = this.handleMouseLeave.bind(this);
+                this.defaultStates = this.defaultStates.bind(this);
+                this.setProperty = this.setProperty.bind(this);
+                this.init = this.init.bind(this);
+                this.init();
+            }
+            handleMouseMove(event) {
+                const {offsetX, offsetY} = event;
+                let X;
+                let Y;
+                if (this.tiltEffect === "reverse") {
+                    X = ((offsetX - (this.w/2)) / 3) / 5;
+                    Y = (-(offsetY - (this.h/2)) / 3) / 5;
+                }
+                else if (this.tiltEffect === "normal") {
+                    X = (-(offsetX - (this.w/2)) / 3) / 5;
+                    Y = ((offsetY - (this.h/2)) / 3) / 5;
+                }
+                this.setProperty('--rY', X.toFixed(2));
+                this.setProperty('--rX', Y.toFixed(2));
+                this.setProperty('--bY', (80 - (X/4).toFixed(2)) + '%');
+                this.setProperty('--bX', (50 - (Y/4).toFixed(2)) + '%');
+            }
+            handleMouseEnter() {
+                this.mouseOnComponent = true;
+                this.container.classList.add("container--active");
+            }
+            handleMouseLeave() {
+                this.mouseOnComponent = false;
+                this.defaultStates();
+            }
+            defaultStates() {
+                this.container.classList.remove("container--active");
+                this.setProperty('--rY', 0);
+                this.setProperty('--rX', 0);
+                this.setProperty('--bY', '80%');
+                this.setProperty('--bX', '50%');
+            }
+            setProperty(p, v) {
+              return this.container.style.setProperty(p, v);
+            }
+            init() {
+                this.element.addEventListener('mousemove', this.handleMouseMove);
+                this.element.addEventListener('mouseenter', this.handleMouseEnter);
+                this.element.addEventListener('mouseleave', this.handleMouseLeave);
+            }
+        }
+
+        $.get("/allRobots", (data) => {
+            if(data.status == 200){
+                data.data.forEach((robot, index) => {
+                    $("#robotsCards").append(`<div class="wrap cursor-pointer w-full">
+                        <a href="/book?robot=${robot.id}" class="container w-full p-12 rounded-lg flex relative items-end aspect-[2/3]" style="background: linear-gradient(hsla(0, 0%, 100%, .1), hsla(0, 0%, 100%, .1)), url('${robot.data.img}'); background-position: var(--bX) var(--bY);background-size: 40rem auto;"><p class="text-2xl text-gray-400 opacity-60 font-bold">${robot.data.name.charAt(0).toUpperCase() + robot.data.name.slice(1)}</p></a></div>`);
+                        new parallaxTiltEffect({
+                            element: $('.wrap')[index],
+                            tiltEffect: 'reverse'
+                        });
+                })
+            }
         });
 
         /*sync function getCommits(){

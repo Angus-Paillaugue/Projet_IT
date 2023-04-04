@@ -38,4 +38,4 @@ class Vibration {
     }
 }
 
-new Vibration([200, 50, 200]).vibrate();
+// new Vibration([200, 50, 200]).vibrate();

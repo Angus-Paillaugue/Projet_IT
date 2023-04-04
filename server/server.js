@@ -48,6 +48,7 @@ app.get("/manage-users", async(req, res) => {res.sendFile("public/admin/manageUs
 app.get("/settings", async(req, res) => {res.sendFile("public/settings.html", {root: "../"})});
 app.get("/reset-password/:id", async(req, res) => {res.sendFile("public/resetPassword.html", {root: "../"})});
 app.get("/create-password/:id", async(req, res) => {res.sendFile("public/createPassword.html", {root: "../"})});
+app.get("/error/:number", (req, res) => {res.sendFile(`public/errors/${req.params.number}.html`, {root:"../"});});
 
 app.post("/login", async(req, res) => {
     const username = req.body.username;

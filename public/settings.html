@@ -13,13 +13,12 @@
     <div class="min-h-screen">
         <div class="sticky top-0 w-full z-50">
             <nav class="dark:bg-gray-800 bg-white border-b shadow-md dark:border-gray-700"></nav>
-          
-            <header class="dark:bg-gray-800 bg-white shadow">
-                <div class="mx-auto max-w-7xl sm:py-6 py-3 px-4 sm:px-6 lg:px-8">
-                    <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Settings</h1>
-                </div>
-            </header>
         </div>
+        <header class="dark:bg-gray-800 bg-white shadow">
+            <div class="mx-auto max-w-7xl sm:py-6 py-3 px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Settings</h1>
+            </div>
+        </header>
 
         <main class="min-h-full">
             <div class="mx-auto max-w-7xl px-1 py-6 sm:px-6 lg:px-8 flex flex-col justify-center items-center" id="pageContent">
@@ -48,11 +47,11 @@
                                     <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Username</label>
                                 </div>
                             </div>
-                            <!-- Profile pucture -->
+                            <!-- Profile picture -->
                             <div class="flex flex-row gap-2 items-center">
                                 <img id="paramPdp" class="h-16 w-16 rounded-full">
                                 <input type="file" id="profilePictureInput" class="hidden">
-                                <label for="profilePictureInput" class="p-2 border rounded-lg border-neutral-300 dark:border-gray-300 dark:bg-gray-800 bg-neutral-100 dark:bg-neutral-700 cursor-pointer text-gray-900 dark:text-neutral-100 hover:dark:border-gray-600">Choose a new one</label>
+                                <label for="profilePictureInput" class="p-2 border rounded-lg border-neutral-300 dark:border-gray-300 bg-neutral-100 dark:bg-neutral-700 cursor-pointer text-gray-900 dark:text-neutral-100 hover:dark:border-gray-600">Choose a new one</label>
                             </div>
                             <button type="submit" id="changeChangersProfile" class="mt-1 focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 ">Save changes</button>
                         </div>

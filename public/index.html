@@ -133,8 +133,8 @@
         }
     </style>
 
-    <script>
-        // import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+    <script type="module">
+        import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
         function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
         function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}
         function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
@@ -212,23 +212,26 @@
             }
         });
 
-        /*async function getCommits(){
+        async function getCommits(){
             const octokit = new Octokit({auth: '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'});
               
             let commits = await octokit.request('GET /repos/{owner}/{repo}/commits', {
                 owner: 'mere-patrie',
-                repo: 'Projet_IT',
-                headers: {'X-GitHub-Api-Version': '2022-11-28'}
+                repo: 'Projet_IT'
             });
             commits.data.forEach(commit => {
                 if(commit.commit.message.substring(0, 9) == "important"){
-                    let message = commit.commit.message
-                    message = message.substring(9, message.length)
+                    console.log(new Date(commit.commit.committer.date).toLocaleString());
+                    let message = commit.commit.message;
+                    message = message.substring(9, message);
+                    message = message.split("|");
+                    message = message[message.length -1];
+                    let title = message[0];
                     console.log(message);
                 }
             });
         }
-        getCommits()*/
+        getCommits()
     </script>
 
 </body>

@@ -223,7 +223,7 @@
                 if(commit.commit.message.substring(0, 9) == "important"){
                     console.log(new Date(commit.commit.committer.date).toLocaleString());
                     let message = commit.commit.message;
-                    message = message.substring(9, message);
+                    message = message.substring(9, message.length);
                     message = message.split("|");
                     message = message[message.length -1];
                     let title = message[0];

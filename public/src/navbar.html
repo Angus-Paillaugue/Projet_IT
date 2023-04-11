@@ -4,8 +4,8 @@
             <div class="flex-shrink-0"><a href="/"><img class="h-16 w-auto logo"></a></div>
             <div class="hidden lg:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="/" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white rounded-md px-3 py-2 text-sm font-medium navbarHomeSection">Home</a>
-                    <a href="/book" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white rounded-md px-3 py-2 text-sm font-medium navbarBookARobotSection">Book a robot</a>
+                    <a href="/" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white rounded-md px-3 py-2 text-sm font-medium navbarHomeSection">Accueil</a>
+                    <a href="/book" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white rounded-md px-3 py-2 text-sm font-medium navbarBookARobotSection">Réserver un robot</a>
                 </div>
             </div>
         </div>
@@ -14,21 +14,20 @@
                 <!-- Profile dropdown -->
                 <div class="relative ml-3">
                     <div>
-                        <button type="button" class="flex max-w-xs items-center rounded-full bg-gray-300 dark:bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400 dark:focus:ring-offset-gray-800" id="userMenuButton" aria-expanded="false" aria-haspopup="true"><span class="sr-only">Open user menu</span><img class="h-8 w-8 rounded-full profilePicture" alt="Profile picture"></button>
+                        <button type="button" class="flex max-w-xs items-center rounded-full bg-gray-300 dark:bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400 dark:focus:ring-offset-gray-800" id="userMenuButton" aria-expanded="false" aria-haspopup="true"><span class="sr-only">Menu utilisateur</span><img class="h-8 w-8 rounded-full profilePicture" alt="Profile picture"></button>
                     </div>
                     <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden userMenuDropdown logged" role="menu" aria-orientation="vertical" tabindex="-1">
-                        <a href="/dashboard" class="flex flex-row justify-start px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full" role="menuitem" tabindex="-1">Your Profile</a>
-                        <button onclick="deleteCookie('token');location.reload();" class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full flex flex-row justify-start" role="menuitem" tabindex="-1">Sign out</button>
+                        <a href="/dashboard" class="flex flex-row justify-start px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full" role="menuitem" tabindex="-1">Mon profile</a>
+                        <button onclick="deleteCookie('token');location.reload();" class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full flex flex-row justify-start" role="menuitem" tabindex="-1">Se déconnecter</button>
                     </div>
                     <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden userMenuDropdown notLogged" role="menu" aria-orientation="vertical" tabindex="-1">
-                        <a href="/login" class="flex flex-row justify-start px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full" role="menuitem" tabindex="-1">Log-in</a>
-                        <a href="/signin" class="flex flex-row justify-start px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full" role="menuitem" tabindex="-1">Sign-in</a>
+                        <a href="/login" class="flex flex-row justify-start px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 w-full" role="menuitem" tabindex="-1">Se connecter</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="mr-2 flex lg:hidden">
-            <button type="button" class="inline-flex items-center justify-center rounded-md bg-gray- dark:bg-gray-800 p-2 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false" id="mobileMenuButton"><span class="sr-only">Open main menu</span><svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg><svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            <button type="button" class="inline-flex items-center justify-center rounded-md bg-gray- dark:bg-gray-800 p-2 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false" id="mobileMenuButton"><span class="sr-only">Menu principal</span><svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg><svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
         </div>
     </div>
 </div>
@@ -36,8 +35,8 @@
 <!-- Mobile menu -->
 <div class="hidden" id="mobileMenu">
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-        <a href="/" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white block rounded-md px-3 py-2 text-base font-medium navbarHomeSection">Home</a>
-        <a href="/book" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white block rounded-md px-3 py-2 text-base font-medium navbarBookARobotSection">Book a robot</a>
+        <a href="/" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white block rounded-md px-3 py-2 text-base font-medium navbarHomeSection">Accueil</a>
+        <a href="/book" class="bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white block rounded-md px-3 py-2 text-base font-medium navbarBookARobotSection">Réserver un robot</a>
     </div>
     <div class="border-t border-gray-700 pt-4 pb-3">
         <div class="flex items-center px-5">
@@ -45,12 +44,11 @@
             <div class="ml-3"><div class="text-base font-medium leading-none text-white" id="navBarUsername"></div></div>
         </div>
         <div class="mt-3 space-y-1 px-2 logged">
-            <a href="/dashboard" class="block rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800">Your Profile</a>
-            <button onclick="deleteCookie('token');location.reload();" class="rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800 w-full flex flex-row justify-start">Sign out</button>
+            <a href="/dashboard" class="block rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800">Mon profile</a>
+            <button onclick="deleteCookie('token');location.reload();" class="rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800 w-full flex flex-row justify-start">Se déconnecter</button>
         </div>
         <div class="mt-3 space-y-1 px-2 notLogged">
-            <a href="/dashboard" class="block rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800">Log-in</a>
-            <a href="/signin" class="block rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800">Sign-in</a>
+            <a href="/dashboard" class="block rounded-md px-3 py-2 text-base font-medium bg-white hover:bg-gray-200 text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800">Se connecter</a>
         </div>
     </div>
 </div>

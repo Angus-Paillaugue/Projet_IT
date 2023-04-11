@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <script src="http://localhost/Projet_72h/public/src/main.js"></script>
-    <title>Settings</title>
+    <title>Paramètres</title>
 </head>
 <body class="bg-neutral-100 dark:bg-neutral-800">
 
@@ -16,7 +16,7 @@
         </div>
         <header class="dark:bg-gray-800 bg-white shadow">
             <div class="mx-auto max-w-7xl sm:py-6 py-3 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Settings</h1>
+                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Paramètres</h1>
             </div>
         </header>
 
@@ -26,8 +26,8 @@
                 <div class="flex flex-row w-full justify-center">
                     <div class="flex flex-col bg-white dark:bg-gray-800 rounded-l border-r border-neutral-300 dark:border-gray-500">
                         <button class="flex flex-rox gap-1 justify-start p-3 border-b-2 border-emerald-400 text-gray-900 dark:text-neutral-100" data-switch="Profile">Profile</button>
-                        <button class="flex flex-rox gap-1 justify-start p-3 border-b-2 border-gray-500 text-gray-900 dark:text-neutral-100" data-switch="Password">Password</button>
-                        <button class="flex flex-rox gap-1 justify-start p-3 border-b-2 border-gray-500 text-gray-900 dark:text-neutral-100" data-switch="Theme">Theme</button>
+                        <button class="flex flex-rox gap-1 justify-start p-3 border-b-2 border-gray-500 text-gray-900 dark:text-neutral-100" data-switch="Password">Mot de passe</button>
+                        <button class="flex flex-rox gap-1 justify-start p-3 border-b-2 border-gray-500 text-gray-900 dark:text-neutral-100" data-switch="Theme">Thème</button>
                     </div>
                     <div class="flex flex-col bg-white dark:bg-gray-800 p-3 gap-3 rounded-r w-full max-w-md">
                         <div data-page="Profile" class="flex flex-col gap-3">
@@ -41,28 +41,28 @@
                             </div>
                             <!-- Username -->
                             <div>
-                                <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100 mb-1">Username :</p>
+                                <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100 mb-1">Nom :</p>
                                 <div class="relative">
                                     <input type="text" id="usernameInput" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-neutral-100 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer" placeholder=" " />
-                                    <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Username</label>
+                                    <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Nom d'utilisateur</label>
                                 </div>
                             </div>
                             <!-- Profile picture -->
                             <div class="flex flex-row gap-2 items-center">
                                 <img id="paramPdp" class="h-16 w-16 rounded-full">
                                 <input type="file" id="profilePictureInput" class="hidden">
-                                <label for="profilePictureInput" class="p-2 border rounded-lg border-neutral-300 dark:border-gray-300 bg-neutral-100 dark:bg-neutral-700 cursor-pointer text-gray-900 dark:text-neutral-100 hover:dark:border-gray-600">Choose a new one</label>
+                                <label for="profilePictureInput" class="p-2 border rounded-lg border-neutral-300 dark:border-gray-300 bg-neutral-100 dark:bg-neutral-700 cursor-pointer text-gray-900 dark:text-neutral-100 hover:dark:border-gray-600">Choisir une nouvelle</label>
                             </div>
-                            <button type="submit" id="changeChangersProfile" class="mt-1 focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 ">Save changes</button>
+                            <button type="submit" id="changeChangersProfile" class="mt-1 focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 ">Sauvegarder</button>
                         </div>
                         <div data-page="Password" class="hidden flex-col gap-3">
                             <div>
-                                <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100">Change password :</p>
+                                <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100">Changer de mot de passe :</p>
                                 <!-- Current password -->
                                 <div class="relative mt-2">
                                     <div class="relative">
                                         <input type="password" id="currentPasswordInput" class="block px-2.5 pb-2.5 pr-12 pt-4 w-full text-sm text-gray-900 dark:text-neutral-100 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer invalid:border-red-500" placeholder=" "/>
-                                        <label for="currentPasswordInput" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Current password</label>
+                                        <label for="currentPasswordInput" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Mot de passe actuel</label>
                                     </div>
                                     <div class="absolute inset-y-0 right-0 flex items-center">
                                         <button type="button" id="toggle-visibility-password" class="h-[calc(100%-2px)] text-gray-500 hover:bg-gray-100 font-medium rounded-lg text-sm px-4 py-2.5 mx-px"><svg xmlns="http://www.w3.org/2000/svg" style="display: block;" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: none;" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg></button>
@@ -72,14 +72,14 @@
                                 <div class="relative mt-2">
                                     <div class="relative">
                                         <input type="password" id="newPasswordInput" class="block px-2.5 pb-2.5 pr-12 pt-4 w-full text-sm text-gray-900 dark:text-neutral-100 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-indigo-600 peer invalid:border-red-500" placeholder=" "/>
-                                        <label for="newPasswordInput" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">New password</label>
+                                        <label for="newPasswordInput" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Nouveau mot de passe</label>
                                     </div>
                                     <div class="absolute inset-y-0 right-0 flex items-center">
                                         <button type="button" id="toggle-visibility-password" class="h-[calc(100%-2px)] text-gray-500 hover:bg-gray-100 font-medium rounded-lg text-sm px-4 py-2.5 mx-px"><svg xmlns="http://www.w3.org/2000/svg" style="display: block;" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: none;" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg></button>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" id="changePasswordButton" class="mt-1 focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 ">Change</button>
+                            <button type="submit" id="changePasswordButton" class="mt-1 focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 ">Changer</button>
                         </div>
                         <div data-page="Theme" class="hidden">
                             <button onclick="changeTheme()" class="w-12 h-6 rounded-full p-1 bg-neutral-300 dark:bg-gray-600 relative transition-colors duration-500 ease-infocus:outline-none focus:ring-2 focus:ring-indigo-700 focus:border-transparent"><div class="rounded-full w-4 h-4 bg-indigo-600 relative ml-0 dark:ml-6 pointer-events-none transition-all duration-300 ease-out"></div></button>

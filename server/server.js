@@ -44,6 +44,7 @@ app.get('/book', (req, res) => {res.sendFile("public/book.html", {root: "../"});
 app.get('/bookings', (req, res) => {res.sendFile("public/bookings.html", {root: "../"});});
 app.get("/navbar", async(req, res) => {res.sendFile("public/src/navbar.html", {root: "../"})});
 app.get("/admin-dashboard", async(req, res) => {res.sendFile("public/admin/adminDashboard.html", {root: "../"})});
+app.get("/manage-bookings", async(req, res) => {res.sendFile("public/admin/manageBookings.html", {root: "../"})});
 app.get("/manage-users", async(req, res) => {res.sendFile("public/admin/manageUsers.html", {root: "../"})});
 app.get("/settings", async(req, res) => {res.sendFile("public/settings.html", {root: "../"})});
 app.get("/reset-password/:id", async(req, res) => {res.sendFile("public/resetPassword.html", {root: "../"})});

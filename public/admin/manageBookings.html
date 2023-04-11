@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <script src="http://localhost/Projet_72h/public/src/main.js"></script>
-    <title>404</title>
+    <title>Gérer les réservations</title>
 </head>
 <body class="bg-neutral-100 dark:bg-neutral-800">
 
@@ -16,29 +16,16 @@
         </div>
         <header class="dark:bg-gray-800 bg-white shadow">
             <div class="mx-auto max-w-7xl sm:py-6 py-3 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">404</h1>
+                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Gérer les réservations</h1>
             </div>
         </header>
 
-        <main class="min-h-full p-4">
-          <div class="mx-auto px-1 py-6 sm:px-6 lg:px-8 flex flex-col justify-center items-center">
-            <div class="rounded p-2 min-w-50 w-full max-w-md flex flex-col bg-white dark:bg-gray-800">
-              <h1 class="text-4xl font-sans font-semibold dark:text-gray-300 text-gray-500">Erreur 404</h1>
-              <p class="text-gray-900 text-base font-sans font-semibold dark:text-neutral-100 mt-2">La page que vous cherchez n'existe pas! Vérifiez l'url de la page à laquelle vous essayez d'acceder.</p>
-              <div class="w-full relative flex flex-col items-center">
-                  <img src="http://localhost/Projet_72h/public/src/Romain.jpg" class="w-60" alt="Romain Toumit">
-                  <div class='top-[72px] w-[150px] flex justify-between left-1/2 -translate-x-1/2 absolute'>
-                        <div class='eye'></div>
-                        <div class='eye'></div>
-                  </div>
-              </div>
-              <a href="/" class="mt-2 font-medium text-indigo-600 dark:text-indigo-700 no-underline hover:underline">Retour à la page d'accueil</a>
+        <main class="min-h-full">
+            <div class="mx-auto px-1 max-w-7xl py-6 sm:px-6 lg:px-8 flex flex-col justify-center items-center min-h-full">
+                <div class="w-full grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); grid-template-rows: min-content;" id="bookingsList"></div>
             </div>
-          </div>
         </main>
-
-        <style>.tooltip:hover .tooltip-item {visibility: visible;}</style>
-
+        
         <footer class="bg-white dark:bg-gray-800 flex flex-col p-4 items-center sticky top-[100vh]">
             <div class="flex flex-row items-center max-w-7xl w-full">
                 <img class="h-10 w-auto logo" alt="Logo">
@@ -55,52 +42,34 @@
         </footer>
     </div>
 
-    <style>
-        .eye {
-            position: relative;
-            display: inline-block;
-            border-radius: 50%;
-            height: 30px;
-            width: 30px;
-            background: #CCC;
-        }
-        .eye:after {
-            position: absolute;
-            bottom: 17px;
-            right: 10px;
-            width: 10px;
-            height: 10px;
-            background: #000;
-            border-radius: 50%;
-            content: " ";
-        }
-    </style>
-
     <script>
         function setCookie(cname, cvalue, exdays) {const d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));let expires = "expires="+ d.toUTCString();document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; }
         function getCookie(name) {function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));return match ? match[1] : null;}
         function deleteCookie(name) {document.cookie = name+'=; Max-Age=-99999999;path=/';}
+
         // Navbar
         $.get("/navbar", (data) => {
             $("nav").html(data);
             if(getCookie("token")) $(".notLogged").remove(); else $(".logged").remove();
         });
 
-        $("body").mousemove(function(event) {
-            $(".eye").each(function(){
-                let eye = $(this);
-                let x = (eye.offset().left) + (eye.width() / 2);
-                let y = (eye.offset().top) + (eye.height() / 2);
-                let rad = Math.atan2(event.pageX - x, event.pageY - y);
-                let rot = (rad * (180 / Math.PI) * -1) + 180;
-                eye.css({
-                    '-webkit-transform': 'rotate(' + rot + 'deg)',
-                    '-moz-transform': 'rotate(' + rot + 'deg)',
-                    '-ms-transform': 'rotate(' + rot + 'deg)',
-                    'transform': 'rotate(' + rot + 'deg)'
-                });
+        if(getCookie("token")){
+            $.post("/auth", {token:getCookie("token")}, (data) => {
+                if(data.status == 400){
+                    location = "/login";
+                }else{
+                    if(data.data.isAdmin !== true) location = "/dashboard";
+                    $.get(`/allBookings?token=${getCookie("token")}`, (data) => {
+                        if(data.status == 200){
+                            data.data.forEach(booking => {
+                                $("#bookingsList").append(`<div id="booking-${booking.id}" class="bg-white dark:bg-gray-800 p-1 rounded flex flex-row gap-2 justify-between items-center"><div class="flex flex-row gap-2 items-center"><div class="flex flex-col gap-1"><a class="flex flex-row gap-1 items-center" href="/user/${booking.user.username}"><img class="h-10 w-10 rounded-full" src="${booking.user.profilePicture}"><p class="text-lg font-sans font-semibold text-black dark:text-neutral-100">${booking.user.username}</p></a><p class="text-lg font-sans font-semibold text-black dark:text-neutral-100">Booking for ${booking.robot.name} for the ${booking.data.date}</p></div></div><button onclick="removeBooking('${booking.id}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="fill-red-400 mr-1" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/></svg></button></div>`);
+                            })
+                        }
+                    })
+                }
             });
-        });
+        }else location = "/login";
+        function removeBooking(id){$.post("/deleteBooking", {token:getCookie("token"), id:id}, (data) => {if(data.status == 200){$(`#booking-${id}`).fadeOut();new Notification("Removed", "Booking removed successfully", "success");}})}
     </script>
 
 </body>

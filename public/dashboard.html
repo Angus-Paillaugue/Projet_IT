@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <script src="http://localhost/Projet_72h/public/src/main.js"></script>
-    <title>Admin dashboard</title>
+    <title>Mon compte</title>
 </head>
 <body class="bg-neutral-100 dark:bg-neutral-800">
 
@@ -16,7 +16,7 @@
         </div>
         <header class="dark:bg-gray-800 bg-white shadow">
             <div class="mx-auto max-w-7xl sm:py-6 py-3 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Dashboard</h1>
+                <h1 class="text-3xl font-bold tracking-tight dark:text-neutral-100 text-gray-900" id="pageName">Mon compte</h1>
             </div>
         </header>
 
@@ -24,11 +24,11 @@
             <div class="mx-auto px-1 max-w-7xl py-6 sm:px-6 lg:px-8 flex flex-col justify-center items-center min-h-full">
                 <!-- Page content -->
                 <div class="rounded p-2 min-w-50 w-full max-w-md flex flex-col bg-white dark:bg-gray-800">
-                    <h1 class="text-4xl font-sans font-semibold dark:text-gray-300 text-gray-500">Welcome <span id="usernamePlaceholder"></span></h1>
-                    <a href="/bookings" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">My bookings</a>
-                    <a href="/book" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Book a robot</a>
-                    <a href="/settings" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Settings</a>
-                    <button onclick="deleteCookie('token');location.reload();" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center">Disconnect</button>
+                    <h1 class="text-4xl font-sans font-semibold dark:text-gray-300 text-gray-500">Bienvenue <span id="usernamePlaceholder"></span></h1>
+                    <a href="/bookings" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Mes réservations</a>
+                    <a href="/book" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Réserver un robot</a>
+                    <a href="/settings" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 w-full text-center">Paramètres</a>
+                    <button onclick="deleteCookie('token');location.reload();" class="focus:outline-none text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center">Se déconnecter</button>
                 </div>
             </div>
         </main>

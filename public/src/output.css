@@ -830,12 +830,13 @@ video {
   height: 100vh;
 }
 
-.max-h-full {
-  max-height: 100%;
+.h-auto {
+  height: auto;
 }
 
-.max-h-screen {
-  max-height: 100vh;
+.h-max {
+  height: -moz-max-content;
+  height: max-content;
 }
 
 .min-h-full {
@@ -914,6 +915,10 @@ video {
 .w-max {
   width: -moz-max-content;
   width: max-content;
+}
+
+.w-screen {
+  width: 100vw;
 }
 
 .max-w-2xl {
@@ -1074,12 +1079,24 @@ video {
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
 
+.overflow-scroll {
+  overflow: scroll;
+}
+
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
 }
 
 .rounded {

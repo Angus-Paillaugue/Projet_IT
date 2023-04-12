@@ -12,7 +12,7 @@ function main() {
     if(getCookie("token")){$.post("/auth", {token:getCookie("token")}, (data) => {if(data.status == 200) $(".profilePicture").each(function(){$(this).attr("src", data.data.profilePicture);});});}else $(".profilePicture").each(function(){$(this).attr("src", "http://localhost/Projet_72h/public/src/defaultProfilePicture.png");});
 
     // Get logo and append it to wherever it's needed
-    $(".logo").attr("src", "http://localhost/Projet_72h/public/src/logo.png");$("head").append(`<link rel="icon" href="http://localhost/Projet_72h/public/src/logo.png" type="image/x-icon">`);
+    $(".logo").replaceWith("<img class='h-10 w-10' src='http://localhost/Projet_72h/public/src/logo.svg'>");$("head").append(`<link rel="icon" href="http://localhost/Projet_72h/public/src/favicon.svg" type="image/x-icon">`);
     $("#currentYear").text(new Date().getFullYear());
 }
 

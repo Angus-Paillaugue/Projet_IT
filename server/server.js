@@ -47,6 +47,7 @@ app.get("/admin-dashboard", async(req, res) => {res.sendFile("public/admin/admin
 app.get("/manage-bookings", async(req, res) => {res.sendFile("public/admin/manageBookings.html", {root: "../"})});
 app.get("/manage-users", async(req, res) => {res.sendFile("public/admin/manageUsers.html", {root: "../"})});
 app.get("/settings", async(req, res) => {res.sendFile("public/settings.html", {root: "../"})});
+app.get("/reset-password", async(req, res) => {res.sendFile("public/resetPassword.html", {root: "../"})});
 app.get("/reset-password/:id", async(req, res) => {res.sendFile("public/resetPassword.html", {root: "../"})});
 app.get("/create-password/:id", async(req, res) => {res.sendFile("public/createPassword.html", {root: "../"})});
 app.get("/error/:number", (req, res) => {res.sendFile(`public/errors/${req.params.number}.html`, {root:"../"});});
@@ -229,30 +230,19 @@ app.post("/changeAdminRights", async(req, res) => {
     }
 });
 app.post("/resetPassword", async(req, res) => {
-    try {
-        const token = req.body.token;
-        const id = req.body.id;
-        jwt.verify(token, process.env.TOKEN_SECRET, async (err, username) => {
-            if (err) return res.send({status:400, data:"Invalid token"});
-            const user = await usersRef.where("username", "==", `${username}`).get();
-            if(user.docs[0].data().isAdmin){
-                const userToReset = await usersRef.doc(`${id}`).get();
-                var mailOptions = {
-                    from: process.env.email,
-                    to: userToReset.data().email,
-                    subject: 'Reset your password',
-                    text: `You'll find below the link to reset your password. This link is only available for 5 minutes. http://localhost:8000/reset-password/${userToReset.id}`
-                };
-                transporter.sendMail(mailOptions, function(error, info){
-                    if (error) res.send({status:400, data:"Mail error"}); else res.send({status:200, data:"Mail sent"});
-                });
-            }else{
-                res.send({status:400, data:"Auth error"});
-            }
-        });
-    } catch (err) {
-        res.send({status:400, data:err});
-    }
+    const email = req.body.email;
+    let user = await usersRef.where("email", "==", `${email}`).get();
+    user = user.docs[0];
+    console.log(`http://localhost:8000/reset-password/${user.id}`)
+    var mailOptions = {
+        from: process.env.email,
+        to: user.data().email,
+        subject: 'Reset your password',
+        text: `You'll find below the link to reset your password. This link is only available for 5 minutes. http://localhost:8000/reset-password/${user.id}`
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) res.send({status:400, data:"Mail error"}); else res.send({status:200, data:"Mail sent"});
+    });
 });
 app.post("/newPassword", async(req, res) => {
     try {

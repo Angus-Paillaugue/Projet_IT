@@ -3,6 +3,7 @@
     "tailwindcss": "^3.2.7"
   },
   "dependencies": {
-    "functions": "file:functions"
+    "functions": "file:functions",
+    "three": "^0.151.3"
   }
 }

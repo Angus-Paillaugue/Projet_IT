@@ -99,12 +99,17 @@ app.get("/myBookings", async(req, res) => {
         const users = await usersRef.where('username', '==', username).get();
         const bookings = await reservationsRef.where('userId', '==', users.docs[0].id).get();
         let send = [];
+        var yesterday = new Date(new Date().getTime());
+        yesterday.setDate(new Date().getDate() - 1);
+        console.log("---------------------------------------\n");
         bookings.forEach(async (doc) => {
-            if(new Date(doc.data().date).toLocaleDateString() >= new Date().toLocaleDateString()){
+            console.log(`Date de réservation : ${new Date(doc.data().date)}\nHier : ${yesterday}\nID : ${doc.id}\n`)
+            if(new Date(doc.data().date) >= yesterday){
                 delete doc.data().code;
                 send.push({id:doc.id, data:doc.data()});
             }
         });
+        console.log("---------------------------------------\n");
         res.send({status:200, data:send});
     });
 }); 

@@ -182,7 +182,6 @@ app.post("/checkCode", async(req, res) => {
             if(parseInt(shedNo) >= 0){
                 const robot = await robotsRef.where("shedNo", "==", parseInt(shedNo)).get();
                 const bookings = await reservationsRef.where("robot", "==", `${robot.docs[0].id}`).get();
-                console.log("y")
                 bookings.forEach(doc => {
                     if(new Date(doc.data().date).toLocaleDateString() == new Date().toLocaleDateString()){
                         if(doc.data().code == code) res.status(200).send("Code OK"); else res.status(400).send("Code not OK");
@@ -367,8 +366,7 @@ app.get("/allBookings", async(req, res) => {
         if (err) return res.send({status:400, data:"Invalid token"});
         const user = await usersRef.where("username", "==", `${username}`).get();
         if(user.docs[0].data().isAdmin){
-            const users = await usersRef.where('email', '!=', "null").get();
-            const bookings = await reservationsRef.where('userId', '==', users.docs[0].id).get();
+            const bookings = await reservationsRef.where('userId', '!=', "null").get();
             let send = [];
             for await (let doc of bookings.docs){
                 let user = await usersRef.doc(`${doc.data().userId}`).get();

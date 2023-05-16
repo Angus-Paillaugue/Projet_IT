@@ -3,7 +3,7 @@ var cors = require('cors');
 const bodyParser = require("body-parser");
 const dotenv = require('dotenv');
 dotenv.config();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');

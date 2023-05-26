@@ -3,7 +3,7 @@ $(function() {
 });
 function main() {
     // Append scrips in the head
-    $("head").append(`<script type="text/javascript" src="https://livejs.com/live.js"></script><link rel="stylesheet" href="${window.location.origin.split(":").slice(0,2).join(":")}/Projet_72h/public/src/output.css"><meta name="theme-color" content="#4F46E5"><style>::selection{background-color: #4F46E5;}</style>`);
+    $("head").append(`<script type="text/javascript" src="https://livejs.com/live.js"></script><link rel="stylesheet" href="https://raw.githubusercontent.com/mere-patrie/Projet_IT/main/public/src/output.css"><meta name="theme-color" content="#4F46E5"><style>::selection{background-color: #4F46E5;}</style>`);
     
     // Color theme
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
